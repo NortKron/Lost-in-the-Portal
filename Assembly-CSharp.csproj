@@ -67,7 +67,9 @@
     <Compile Include="Assets\Scripts\MenuSettings.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Player0.cs" />
+    <Compile Include="Assets\Scripts\Player1.cs" />
     <Compile Include="Assets\Scripts\PlayerKeyboardController.cs" />
+    <Compile Include="Assets\Trigger.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/NortKron/Documents/Unty Projects/Lost In The Portal/LostInThePortal/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

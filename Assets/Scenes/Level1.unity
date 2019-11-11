@@ -194,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 148183366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.076, y: 1.45, z: 0}
+  m_LocalPosition: {x: 5.076, y: 1.443, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -352,7 +352,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 6b9b1607ac7bdb54697ce75dffab748b, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -372,8 +372,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lives: 10
-  WalkSpeed: 1.5
-  JumpForce: 5
+  WalkSpeed: 1
+  JumpForce: 2
 --- !u!1001 &150744898565272339
 PrefabInstance:
   m_ObjectHideFlags: 0
