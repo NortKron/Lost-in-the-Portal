@@ -1,12 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player0 : MonoBehaviour
 {
-    public int Lives = 10; 
+    public float Lives = 10.0f; 
     public float WalkSpeed = 1.0f;
     public float JumpForce = 2.0f;
+
+    // Pause menu
+    public GameObject panelMenuPause;
+    //private GameObject panelMenuPause;
+
+    // Plauer GUI
+    private GameObject panelPlayerGUI;
+
+    // labels
+    private GameObject labelLeftUp;
+    private GameObject labelRightDown;
+
+    private bool isPause = false;
 
     new Rigidbody2D rigidbody;
     Animator animator;
@@ -24,14 +39,36 @@ public class Player0 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Mouse cursor visible
+        Cursor.visible = false;
+
+        Time.timeScale = 1;
+
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+
+        //panelMenuPause = GameObject.Find("Menu_Pause");
+
+        panelPlayerGUI = GameObject.Find("Player_GUI");
+
+        labelLeftUp = GameObject.Find("Label_LeftUp");
+        labelRightDown = GameObject.Find("Label_RightDown");      
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(labelLeftUp.GetComponent<Text>().text);
+        
+        labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";" ;
+        labelRightDown.GetComponent<Text>().text = "Lives : " + Lives;        
+
+        if (Input.GetButtonDown("Cancel"))
+        {
+            OnPause();
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
             Jump();
@@ -75,5 +112,20 @@ public class Player0 : MonoBehaviour
     {   
         moveState = MoveState.Idle;
         animator.Play("Idle");
+    }
+
+    public void OnPause()
+    {
+        Time.timeScale = isPause ? 1 : 0;
+        isPause = !isPause;
+
+        Cursor.visible = isPause;
+        panelMenuPause.SetActive(isPause);
+        panelPlayerGUI.SetActive(!isPause);
+    }
+
+    public void GetDamage(float damagePoint)
+    {
+        Lives -= damagePoint;
     }
 }
