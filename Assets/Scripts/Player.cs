@@ -1,25 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [Header("Speeds")]
-    public float WalkSpeed = 3;
-    public float JumpForce = 10;
+    public float Lives = 10.0f; 
+    public float WalkSpeed = 1.0f;
+    public float JumpForce = 2.0f;
 
-    private MoveState _moveState = MoveState.Idle;
-    private DirectionState _directionState = DirectionState.Right;
-    private Transform _transform;
-    private Rigidbody2D _rigidbody;
-    private Animator _animatorController;
-    private float _walkTime = 0, _walkCooldown = 0.2f;
+    // Pause menu
+    public GameObject panelMenuPause;
+    //private GameObject panelMenuPause;
 
-    enum DirectionState
-    {
-        Right,
-        Left
-    }
+    // Plauer GUI
+    private GameObject panelPlayerGUI;
+
+    // labels
+    private GameObject labelLeftUp;
+    private GameObject labelRightDown;
+
+    private bool isPause = false;
+
+    new Rigidbody2D rigidbody;
+    Animator animator;
+    SpriteRenderer sprite;
+
+    private MoveState moveState = MoveState.Idle;
 
     enum MoveState
     {
@@ -28,110 +36,96 @@ public class Player : MonoBehaviour
         Jump
     }
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        _transform = GetComponent<Transform>();
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _animatorController = GetComponent<Animator>();
-        _directionState = transform.localScale.x > 0 ? DirectionState.Right : DirectionState.Left;
+        // Mouse cursor visible
+        Cursor.visible = false;
+
+        Time.timeScale = 1;
+
+        rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+
+        //panelMenuPause = GameObject.Find("Menu_Pause");
+
+        panelPlayerGUI = GameObject.Find("Player_GUI");
+
+        labelLeftUp = GameObject.Find("Label_LeftUp");
+        labelRightDown = GameObject.Find("Label_RightDown");      
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
-        if (_moveState == MoveState.Jump)
+        //Debug.Log(labelLeftUp.GetComponent<Text>().text);
+        
+        labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";" ;
+        labelRightDown.GetComponent<Text>().text = "Lives : " + Lives;        
+
+        if (Input.GetButtonDown("Cancel"))
         {
-            if (_rigidbody.velocity == Vector2.zero)
-            {
-                Idle();
-            }
+            OnPause();
         }
-        else if (_moveState == MoveState.Walk)
-        {
-            _rigidbody.velocity = ((_directionState == DirectionState.Right ? Vector2.right : -Vector2.right)
-                                    * WalkSpeed * Time.deltaTime);
-            _walkTime -= Time.deltaTime;
 
-            if (_walkTime <= 0)
-            {
-                Idle();
-            }
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
         }
-    }
-
-    public void Walk()
-    {
-        if (_moveState != MoveState.Jump)
+        else if (Input.GetButton("Horizontal"))
         {
-            _moveState = MoveState.Walk;
-            /*
-            _transform.localScale = new Vector3(-_transform.localScale.x, _transform.localScale.y, _transform.localScale.z);
-            _directionState = _directionState == DirectionState.Left ? DirectionState.Right : DirectionState.Left;
-            */
-
-            if (_directionState == DirectionState.Left)
-            {
-                _transform.localScale = new Vector3(-_transform.localScale.x, _transform.localScale.y, _transform.localScale.z);
-                _directionState = DirectionState.Right;
-            }
-
-            if (_directionState == DirectionState.Right)
-            {
-                _transform.localScale = new Vector3(-_transform.localScale.x, _transform.localScale.y, _transform.localScale.z);
-                _directionState = DirectionState.Left;
-            }
-
-            _walkTime = _walkCooldown;
-            _animatorController.Play("Walk");
+            Walk();
+        }
+        else
+        {
+            Idle();
         }
     }
 
-    public void MoveRight()
+    void Walk()
     {
-        if (_moveState != MoveState.Jump)
+        Vector3 direction = transform.right * Input.GetAxis("Horizontal");
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
+
+        sprite.flipX = direction.x < 0.0f;
+
+        if (moveState != MoveState.Jump)
         {
-            _moveState = MoveState.Walk;
-
-            if (_directionState == DirectionState.Left)
-            {
-                _transform.localScale = new Vector3(-_transform.localScale.x, _transform.localScale.y, _transform.localScale.z);
-                _directionState = DirectionState.Right;
-            }
-
-            _walkTime = _walkCooldown;
-            _animatorController.Play("Walk");
+            moveState = MoveState.Walk;
+            animator.Play("Walk");
         }
     }
 
-    public void MoveLeft()
+    void Jump()
     {
-        if (_moveState != MoveState.Jump)
+        if (moveState != MoveState.Jump)
         {
-            _moveState = MoveState.Walk;
+            rigidbody.AddForce(transform.up * JumpForce, ForceMode2D.Impulse);
 
-            if (_directionState == DirectionState.Right)
-            {
-                _transform.localScale = new Vector3(-_transform.localScale.x, _transform.localScale.y, _transform.localScale.z);
-                _directionState = DirectionState.Left;
-            }
-
-            _walkTime = _walkCooldown;
-            _animatorController.Play("Walk");
-        }
-    }
-
-    public void Jump()
-    {
-        if (_moveState != MoveState.Jump)
-        {
-            _rigidbody.velocity = (Vector3.up * JumpForce * Time.deltaTime);
-            _moveState = MoveState.Jump;
-            _animatorController.Play("Jump");
+            moveState = MoveState.Jump;
+            animator.Play("Jump");
         }
     }
 
     private void Idle()
+    {   
+        moveState = MoveState.Idle;
+        animator.Play("Idle");
+    }
+
+    public void OnPause()
     {
-        _moveState = MoveState.Idle;
-        _animatorController.Play("Idle");
+        Time.timeScale = isPause ? 1 : 0;
+        isPause = !isPause;
+
+        Cursor.visible = isPause;
+        panelMenuPause.SetActive(isPause);
+        panelPlayerGUI.SetActive(!isPause);
+    }
+
+    public void GetDamage(float damagePoint)
+    {
+        Lives -= damagePoint;
     }
 }

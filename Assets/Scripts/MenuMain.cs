@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuMain : MonoBehaviour
 {
-    public Player0 player;
+    public Player player;
 
     public void StartPressed()
     {
