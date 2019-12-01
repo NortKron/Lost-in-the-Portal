@@ -2,9 +2,10 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - Boss
+    - Ghost
     - MenuMain
     - MenuSettings
-    - Player0
+    - Player
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -63,21 +64,23 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9976}
     - Class: 114
-      Script: {instanceID: 10230}
+      Script: {instanceID: 10228}
     - Class: 114
-      Script: {instanceID: 10568}
+      Script: {instanceID: 10564}
     - Class: 114
-      Script: {instanceID: 10652}
+      Script: {instanceID: 10648}
     - Class: 114
-      Script: {instanceID: 10732}
+      Script: {instanceID: 10728}
     - Class: 114
-      Script: {instanceID: 10844}
+      Script: {instanceID: 10838}
     - Class: 114
-      Script: {instanceID: 11014}
+      Script: {instanceID: 11008}
     - Class: 114
-      Script: {instanceID: 11090}
+      Script: {instanceID: 11084}
     - Class: 114
-      Script: {instanceID: 11356}
+      Script: {instanceID: 11350}
+    - Class: 114
+      Script: {instanceID: 12862}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -126,27 +129,27 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10144}
     - Class: 114
-      Script: {instanceID: 10230}
+      Script: {instanceID: 10228}
     - Class: 114
-      Script: {instanceID: 10382}
+      Script: {instanceID: 10380}
     - Class: 114
-      Script: {instanceID: 10394}
+      Script: {instanceID: 10392}
     - Class: 114
-      Script: {instanceID: 10568}
+      Script: {instanceID: 10564}
     - Class: 114
-      Script: {instanceID: 10652}
+      Script: {instanceID: 10648}
     - Class: 114
-      Script: {instanceID: 10844}
+      Script: {instanceID: 10838}
     - Class: 114
-      Script: {instanceID: 11014}
+      Script: {instanceID: 11008}
     - Class: 114
-      Script: {instanceID: 11346}
+      Script: {instanceID: 11340}
     - Class: 114
-      Script: {instanceID: 11356}
+      Script: {instanceID: 11350}
     - Class: 114
-      Script: {instanceID: 11370}
+      Script: {instanceID: 11364}
     - Class: 114
-      Script: {instanceID: 11388}
+      Script: {instanceID: 11382}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -320,12 +323,6 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
-      Hash: d161543e6f462390e4dc5663d2909ef6
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Player1
-  - hash:
-      serializedVersion: 2
       Hash: cc4274b586df3c02688bac01b88bd16c
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -392,12 +389,6 @@ ScriptsOnlyBuild:
     className: RemoteTestResultSender
   - hash:
       serializedVersion: 2
-      Hash: 16315800580b925776790dbcd06061e3
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: PlayerKeyboardController
-  - hash:
-      serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -425,7 +416,7 @@ ScriptsOnlyBuild:
       Hash: 563b6c47fc9ade485cbe4b539fdc4fae
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: Player0
+    className: Player
   - hash:
       serializedVersion: 2
       Hash: 783f593b9380cf72d0f7ebfd4a0d4bcd
@@ -470,13 +461,7 @@ ScriptsOnlyBuild:
     className: Physics2DRaycaster
   - hash:
       serializedVersion: 2
-      Hash: aa164c053ad3c9461a104ee807bd91b7
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Player
-  - hash:
-      serializedVersion: 2
-      Hash: ef860e5add7a7c4ae07d981f79c16daf
+      Hash: aef9386513e10c2b58b4c2172faf4e3c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MenuMain
@@ -618,6 +603,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Ghost
   platform: 19
   scenePathNames:
   - Assets/Scenes/MainMenu.unity

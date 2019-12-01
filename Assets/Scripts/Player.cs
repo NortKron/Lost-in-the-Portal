@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
     {
         //Debug.Log(labelLeftUp.GetComponent<Text>().text);
         
-        labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";" ;
+        //labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";" ;
         labelRightDown.GetComponent<Text>().text = "Lives : " + Lives;        
 
         if (Input.GetButtonDown("Cancel"))
