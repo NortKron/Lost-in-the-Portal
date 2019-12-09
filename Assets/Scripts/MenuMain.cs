@@ -26,6 +26,12 @@ public class MenuMain : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void RestartPressed()
+    {
+        Debug.Log("Restart level");
+        SceneManager.LoadScene(SceneManager.sceneCount);
+    }
+
     public void ExitPressed()
     {
         Debug.Log("Quit pressed!");

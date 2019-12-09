@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 94686873559952996}
   - component: {fileID: 94686873559952997}
   - component: {fileID: 94686873559952994}
-  - component: {fileID: 94686873559952999}
+  - component: {fileID: 1323918834}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -47,6 +47,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -95,8 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
---- !u!58 &94686873559952999
-CircleCollider2D:
+--- !u!70 &1323918834
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -109,5 +110,5 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.6
+  m_Size: {x: 0.5, y: 1.2}
+  m_Direction: 0

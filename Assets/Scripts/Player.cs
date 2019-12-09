@@ -14,6 +14,10 @@ public class Player : MonoBehaviour
     public GameObject panelMenuPause;
     //private GameObject panelMenuPause;
 
+    public GameObject panelLabelDeath;
+
+    public GameObject MainCamera;
+
     // Plauer GUI
     private GameObject panelPlayerGUI;
 
@@ -22,6 +26,7 @@ public class Player : MonoBehaviour
     private GameObject labelRightDown;
 
     private bool isPause = false;
+    private bool isDied = false;
 
     new Rigidbody2D rigidbody;
     Animator animator;
@@ -53,8 +58,8 @@ public class Player : MonoBehaviour
         panelPlayerGUI = GameObject.Find("Player_GUI");
 
         labelLeftUp = GameObject.Find("Label_LeftUp");
-        labelRightDown = GameObject.Find("Label_RightDown");      
-    }
+        labelRightDown = GameObject.Find("Label_RightDown");
+}
 
     // Update is called once per frame
     void Update()
@@ -62,7 +67,9 @@ public class Player : MonoBehaviour
         //Debug.Log(labelLeftUp.GetComponent<Text>().text);
         
         //labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";" ;
-        labelRightDown.GetComponent<Text>().text = "Lives : " + Lives;        
+        labelRightDown.GetComponent<Text>().text = "Lives : " + Lives;
+
+        //camera.transform.position = transform.position;
 
         if (Input.GetButtonDown("Cancel"))
         {
@@ -127,5 +134,31 @@ public class Player : MonoBehaviour
     public void GetDamage(float damagePoint)
     {
         Lives -= damagePoint;
+
+        if (Lives < 1)
+        {
+            Death();
+        }
+    }
+
+    public void Death()
+    {
+        // Включить анимацию смерти
+        moveState = MoveState.Idle;
+        animator.Play("Idle");
+
+        Debug.Log("Die");
+
+        labelRightDown.GetComponent<Text>().text = "Lives : 0";
+
+        //isDied = true;
+
+        panelLabelDeath.SetActive(true);
+        MainCamera.SetActive(true);
+
+        MainCamera.transform.position = transform.position;
+
+        gameObject.SetActive(false);
+
     }
 }

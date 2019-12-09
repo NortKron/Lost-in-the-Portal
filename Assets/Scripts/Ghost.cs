@@ -17,6 +17,9 @@ public class Ghost : MonoBehaviour
     float crdY = 0.0f;
     float crdX = 0.0f;
 
+    float delayStart = 0.0f;
+    float timeStart = 0.0f;
+
     bool isMoveUp = true;
     bool isMoveForward = true;
 
@@ -26,6 +29,9 @@ public class Ghost : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        delayStart = Random.Range(0.0f, 1.0f);
+        timeStart = Time.time;
+
         crdY = transform.position.y;
         crdX = transform.position.x;
 
@@ -33,13 +39,18 @@ public class Ghost : MonoBehaviour
 
         //Debug.Log(crdY);
         labelLeftUp = GameObject.Find("Label_LeftUp");
+
+        //Debug.Log("del : " + delayStart);
     }
 
     // Update is called once per frame
     void Update()
     {
-        labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";";
+        //labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";";
         //transform.position = Vector3.MoveTowards(transform.position, transform.position - transform.up, verticalSpeed * Time.deltaTime);               
+
+        // Чтобы привидения двигались асинхронно
+        if (Time.time - timeStart < delayStart) return;
 
         if (isMoveUp)
         {
@@ -83,7 +94,7 @@ public class Ghost : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("OnTriggerEnter2D");
+        //Debug.Log("OnTriggerEnter2D");
 
         if (collision.gameObject.tag == "Player")
         {
