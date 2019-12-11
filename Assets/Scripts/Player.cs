@@ -151,14 +151,13 @@ public class Player : MonoBehaviour
 
         labelRightDown.GetComponent<Text>().text = "Lives : 0";
 
-        //isDied = true;
+        isDied = true;
 
         panelLabelDeath.SetActive(true);
+/*
         MainCamera.SetActive(true);
-
         MainCamera.transform.position = transform.position;
-
         gameObject.SetActive(false);
-
+*/
     }
 }
