@@ -35,6 +35,11 @@ public class MenuMain : MonoBehaviour
     public void ExitPressed()
     {
         Debug.Log("Quit pressed!");
-        Application.Quit();
+        Application.Quit();        
+    }
+
+    public void OpenInventoryPressed()
+    {
+        player.OnInventory();
     }
 }

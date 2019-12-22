@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     public GameObject panelMenuPause;
     //private GameObject panelMenuPause;
 
+    // Inventory window
+    public GameObject panelInventory;
+
     public GameObject panelLabelDeath;
 
     public GameObject MainCamera;
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour
 
     private bool isPause = false;
     private bool isDied = false;
+    private bool isOpenInventory = false;
 
     new Rigidbody2D rigidbody;
     Animator animator;
@@ -70,6 +74,11 @@ public class Player : MonoBehaviour
         labelRightDown.GetComponent<Text>().text = "Lives : " + Lives;
 
         //camera.transform.position = transform.position;
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnInventory();
+        }
 
         if (Input.GetButtonDown("Cancel"))
         {
@@ -129,6 +138,17 @@ public class Player : MonoBehaviour
         Cursor.visible = isPause;
         panelMenuPause.SetActive(isPause);
         panelPlayerGUI.SetActive(!isPause);
+    }
+
+    public void OnInventory()
+    {
+        //Debug.Log("Open Inventory");
+
+        Time.timeScale = isOpenInventory ? 1 : 0;
+        isOpenInventory = !isOpenInventory;
+
+        Cursor.visible = isOpenInventory;
+        panelInventory.SetActive(isOpenInventory);        
     }
 
     public void GetDamage(float damagePoint)
