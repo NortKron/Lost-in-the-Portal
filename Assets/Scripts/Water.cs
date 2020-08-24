@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-    float hightWave = 4.0f;
+    float hightWave = 6.0f;
     float periodWave = 2.0f;
 
     float timeWave = 1.0f;   
@@ -39,7 +39,6 @@ public class Water : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             GameObject player = GameObject.FindGameObjectsWithTag("Player")[0];
-
             player.SendMessage("Death");
         }
     }
