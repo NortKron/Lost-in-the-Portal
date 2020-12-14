@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-    float hightWave = 6.0f;
+    public float hightWave = 0.1f;
     float periodWave = 2.0f;
 
     float timeWave = 1.0f;   
@@ -23,9 +23,9 @@ public class Water : MonoBehaviour
         if (Time.time - timeWave >= periodWave)
         {
             transform.position = Vector3.MoveTowards(
-                transform.position, 
-                transform.position + (isWaveUp ? 1 : -1) * transform.up, 
-                hightWave * Time.deltaTime);
+                transform.position,
+                transform.position + (isWaveUp ? 1 : -1) * transform.up,
+                hightWave);
 
             timeWave = Time.time;
             isWaveUp = !isWaveUp;
@@ -38,8 +38,10 @@ public class Water : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
-            GameObject player = GameObject.FindGameObjectsWithTag("Player")[0];
-            player.SendMessage("Death");
+            collision.gameObject.SendMessage("Death");
+
+            //GameObject player = GameObject.FindGameObjectWithTag("Player");
+            //player.SendMessage("Death");
         }
     }
 }

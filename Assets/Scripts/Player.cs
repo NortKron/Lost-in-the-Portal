@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class Player : MonoBehaviour
 {
@@ -25,6 +25,10 @@ public class Player : MonoBehaviour
     //private bool isPause = false;
     //private bool isOpenInventory = false;
     public bool isDied = false;
+    public bool isCanMoveUp = false;
+    public bool isCanMoveDown = false;
+
+    bool playMoving = false;
 
     new Rigidbody2D rigidbody;
     Animator animator;
@@ -36,7 +40,9 @@ public class Player : MonoBehaviour
     {
         Idle,
         Walk,
-        Jump
+        Jump,
+        MoveUp,
+        MoveDown
     }
 
     // Start is called before the first frame update
@@ -64,12 +70,24 @@ public class Player : MonoBehaviour
     {
         //Debug.Log(labelLeftUp.GetComponent<Text>().text);
 
-        //labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";" ;
+        labelLeftUp.GetComponent<Text>().text = "X = " + transform.position.x + " ; Y = " + transform.position.y + ";" ;
         labelRightDown.GetComponent<Text>().text = "Lives : " + Lives;
+
+        /*
+        if (playMoving)
+        {   
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                transform.up * Input.GetAxis("Vertical"), 
+                WalkSpeed * Time.deltaTime);
+        }
+        */
     }
 
     void Walk()
     {
+        //Debug.Log("Walk");
+
         Vector3 direction = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
 
@@ -80,6 +98,43 @@ public class Player : MonoBehaviour
             moveState = MoveState.Walk;
             animator.Play("Walk");
         }
+    }
+
+    void WalkVertical()
+    {
+        //GetComponent<Rigidbody2D>().isKinematic = true;
+        playMoving = true;
+
+        Vector3 direction = transform.up * Input.GetAxis("Vertical");
+        //transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
+        //sprite.flipX = direction.x < 0.0f;
+
+        if (moveState == MoveState.Idle)
+        {
+            if (direction.y > 0)
+            {
+                animator.Play("LookUp");
+
+                /*
+                if (isCanMoveUp)
+                {
+                    playMoving = true;
+                    
+                    GetComponent<Rigidbody2D>().isKinematic = true;
+                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
+                }
+                    */
+            }
+            else
+            {
+                animator.Play("LookDown");
+
+                /*
+                if (isCanMoveDown) 
+                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
+                */
+            }
+        }        
     }
 
     void Jump()
@@ -99,6 +154,27 @@ public class Player : MonoBehaviour
         animator.Play("Idle");
     }
 
+    private void MoveUp()
+    {
+        if (!isCanMoveUp && moveState == MoveState.Idle)
+        {
+            animator.Play("LookUp");            
+        }
+    }
+
+    private void MoveDown()
+    {
+        if (!isCanMoveDown && moveState == MoveState.Idle)
+        {
+            animator.Play("LookDown");
+        }
+    }
+
+    private void MoveScript()
+    {
+        animator.Play("Walk");        
+    }
+
     public void GetDamage(float damagePoint)
     {
         Lives -= damagePoint;
@@ -109,6 +185,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ChangeCanMoveUp() => isCanMoveUp = !isCanMoveUp;
+    public void ChangeCanMoveDown() => isCanMoveDown = !isCanMoveDown;
+    
     public void Death()
     {
         // Включить анимацию смерти
@@ -121,5 +200,10 @@ public class Player : MonoBehaviour
 
         isDied = true;
         panelLabelDeath.SetActive(true);
+    }
+
+    public void ChangeMoveVertival()
+    {
+
     }
 }

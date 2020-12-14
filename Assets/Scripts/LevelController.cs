@@ -8,20 +8,22 @@ public class LevelController : MonoBehaviour
     public GameObject panelMenuPause;
 
     // Inventory window
-    public GameObject panelInventory;
+    //public GameObject panelInventory;
 
     public GameObject panelLabelDeath;
 
     public GameObject panelTalk;
     public GameObject panelDialogWindow;
     public GameObject panelPlayerGUI;
+    public GameObject panelCanMoveUpDown;
 
     private bool isPause = false;
-    private bool isOpenInventory = false;
+    //private bool isOpenInventory = false;
     //bool isDied = false;
 
     //GameObject player;
     public Player player;
+    public Inventory inventory;
 
     private List<string> dialog;
 
@@ -80,7 +82,8 @@ public class LevelController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             controllerState = ControllerState.InventoryController;
-            OnInventory();
+            inventory.OnInventory();
+            //OnInventory();
         }        
 
         if (Input.GetButtonDown("Jump"))
@@ -92,10 +95,14 @@ public class LevelController : MonoBehaviour
         {
             player.SendMessage("Walk");
         }
+        else if (Input.GetButton("Vertical"))
+        {
+            player.SendMessage("WalkVertical");
+        }
         else
         {
             player.SendMessage("Idle");
-        }
+        } 
 
         if (Input.GetKeyDown(KeyCode.F) && panelTalk.activeSelf)
         {
@@ -112,9 +119,17 @@ public class LevelController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I) 
             || Input.GetButtonDown("Cancel"))
         {
-            controllerState = ControllerState.PlayerController;
-            OnInventory();
+            OpenInventory();
+
+            //controllerState = ControllerState.PlayerController;
+            //inventory.OnInventory();
         }
+    }
+
+    public void OpenInventory()
+    {
+        controllerState = ControllerState.PlayerController;
+        inventory.OnInventory();
     }
 
     private void DialogController()
@@ -134,8 +149,7 @@ public class LevelController : MonoBehaviour
     private void MenuController()
     {
         if (Input.GetButtonDown("Cancel"))
-        {
-            controllerState = ControllerState.PlayerController;
+        {            
             OnPause();
         }
     }
@@ -148,17 +162,7 @@ public class LevelController : MonoBehaviour
         Cursor.visible = isPause;
         panelMenuPause.SetActive(isPause);
         panelPlayerGUI.SetActive(!isPause);
-    }
-
-    public void OnInventory()
-    {
-        //Debug.Log("Open Inventory");
-
-        Time.timeScale = isOpenInventory ? 1 : 0;
-        isOpenInventory = !isOpenInventory;
-
-        Cursor.visible = isOpenInventory;
-        panelInventory.SetActive(isOpenInventory);
+        controllerState = ControllerState.PlayerController;
     }
 
     public void ShowPanelTalk()
@@ -166,9 +170,15 @@ public class LevelController : MonoBehaviour
         panelTalk.SetActive(!panelTalk.activeSelf);
     }
 
+    public void ShowPanelMove()
+    {
+        player.ChangeMoveVertival();
+        panelCanMoveUpDown.SetActive(!panelCanMoveUpDown.activeSelf);
+    }
+
     public void ShowDialogWindow()
     {
-        Debug.Log("ShowDialogWindow");
+        //Debug.Log("ShowDialogWindow");
         panelDialogWindow.SetActive(!panelDialogWindow.activeSelf);
     }
 
@@ -184,5 +194,4 @@ public class LevelController : MonoBehaviour
         ShowDialogWindow();
         //GameObject.FindGameObjectsWithTag("GameController")[0].SendMessage("ShowDialogWindow");
     }
-
 }

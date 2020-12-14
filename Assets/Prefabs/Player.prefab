@@ -58,8 +58,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 2
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -134,6 +134,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -240,4 +241,8 @@ MonoBehaviour:
   Lives: 10
   WalkSpeed: 1
   JumpForce: 5
-  panelMenuPause: {fileID: 0}
+  MainCamera: {fileID: 0}
+  panelLabelDeath: {fileID: 0}
+  isDied: 0
+  isCanMoveUp: 0
+  isCanMoveDown: 0
