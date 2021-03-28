@@ -9,7 +9,8 @@ public class TrailScriptDown : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             //Debug.Log("Dealer - Trigger Enter");
-            GameObject.FindGameObjectsWithTag("GameController")[0].SendMessage("ShowPanelMove");
+            GameObject.FindGameObjectWithTag("GameController").SendMessage("ShowPanelMove");
+            GameObject.FindGameObjectWithTag("Player").SendMessage("ChangeCanMoveUp");
         }
     }
 
@@ -18,7 +19,8 @@ public class TrailScriptDown : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             //Debug.Log("Dealer - Trigger Exit");
-            GameObject.FindGameObjectsWithTag("GameController")[0].SendMessage("ShowPanelMove");
+            GameObject.FindGameObjectWithTag("GameController").SendMessage("ShowPanelMove");
+            GameObject.FindGameObjectWithTag("Player").SendMessage("ChangeCanMoveUp");
         }
     }
 }

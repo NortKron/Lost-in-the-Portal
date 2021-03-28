@@ -5,23 +5,32 @@ using UnityEngine;
 public class TrailScript : MonoBehaviour
 {
     GameObject trailUp;
-    GameObject trailDowm;
+    GameObject trailDown;
 
     void Start()
     {
+        float k = 0.0f;
+
         trailUp = transform.Find("TrailUp").gameObject;
-        trailDowm = transform.Find("TrailDown").gameObject;
-    }
+        trailDown = transform.Find("TrailDown").gameObject;
+        
+        float horDir;
+        float verDir = trailUp.transform.position.y - trailDown.transform.position.y;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Trail - Trigger Enter");
-        GameObject.FindGameObjectsWithTag("Player")[0].SendMessage("ChangeCanMoveUp");
-    }
+        if (trailUp.transform.position.x > trailDown.transform.position.x)
+        {
+            horDir = trailUp.transform.position.x - trailDown.transform.position.x;
+        }
+        else {
+            horDir = trailDown.transform.position.x - trailUp.transform.position.x;
+        }
+        
+        k = Vector3.Distance(trailUp.transform.position, trailDown.transform.position);
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        Debug.Log("Trail - Trigger Exit");
-        GameObject.FindGameObjectsWithTag("Player")[0].SendMessage("ChangeCanMoveUp");
+        /*
+        Debug.Log("K = " + k 
+            + "\nhorDir = " + horDir
+            + "\nverDir = " + verDir);
+        */
     }
 }

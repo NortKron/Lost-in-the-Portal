@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class TrailScriptUp : MonoBehaviour
 {
-    GameObject parent;
-
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        //parent = transform.parent. gameObject;        
-        //Debug.Log("Name : " + parent.name);
+        //Debug.Log("Trail - Trigger Enter");
+        GameObject.FindGameObjectWithTag("GameController").SendMessage("ShowPanelMove");
+        GameObject.FindGameObjectWithTag("Player").SendMessage("ChangeCanMoveDown");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        //Debug.Log("Trail - Trigger Exit");
+        GameObject.FindGameObjectWithTag("GameController").SendMessage("ShowPanelMove");
+        GameObject.FindGameObjectWithTag("Player").SendMessage("ChangeCanMoveDown");
     }
 }

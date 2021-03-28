@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -30,6 +30,8 @@ public class Ghost : MonoBehaviour
     void Start()
     {
         delayStart = Random.Range(0.0f, 1.0f);
+        isMoveUp = Random.value < 0.15;
+
         timeStart = Time.time;
 
         crdY = transform.position.y;
@@ -39,6 +41,12 @@ public class Ghost : MonoBehaviour
 
         //Debug.Log(crdY);
         labelLeftUp = GameObject.Find("Label_LeftUp");
+
+        transform.position =
+            new Vector3(
+                transform.position.x,
+                Random.Range(crdY - upperLimit, crdY + upperLimit),
+                transform.position.z);
 
         //Debug.Log("del : " + delayStart);
     }
@@ -50,44 +58,55 @@ public class Ghost : MonoBehaviour
         //transform.position = Vector3.MoveTowards(transform.position, transform.position - transform.up, verticalSpeed * Time.deltaTime);               
 
         // Чтобы привидения двигались асинхронно
-        if (Time.time - timeStart < delayStart) return;
+        //if (Time.time - timeStart < delayStart) return;
+
+        //labelLeftUp.GetComponent<Text>().text = "Y : " + transform.position.y;
 
         if (isMoveUp)
         {
             if (transform.position.y + verticalSpeed >= crdY - upperLimit)
-                transform.position = Vector3.MoveTowards(transform.position, transform.position - transform.up, verticalSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(
+                    transform.position, 
+                    transform.position - transform.up, 
+                    verticalSpeed * Time.deltaTime);
             else
                 isMoveUp = !isMoveUp;
         }
         else
         {
-
             if (transform.position.y + verticalSpeed <= crdY + upperLimit)
-                transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.up, verticalSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(
+                    transform.position, 
+                    transform.position + transform.up, 
+                    verticalSpeed * Time.deltaTime);
             else
                 isMoveUp = !isMoveUp;
-
         }
 
         if (isMoveForward)
         {
             if (transform.position.x + horizontalSpeed <= crdX + sideLimit)
-                transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.right, horizontalSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(
+                    transform.position, 
+                    transform.position + transform.right, 
+                    horizontalSpeed * Time.deltaTime);
             else
             {
+                sprite.flipX = isMoveForward;
                 isMoveForward = !isMoveForward;
-                sprite.flipX = true;
             }
         }
         else
         {
-
             if (transform.position.x - horizontalSpeed >= crdX - sideLimit)
-                transform.position = Vector3.MoveTowards(transform.position, transform.position - transform.right, horizontalSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(
+                    transform.position, 
+                    transform.position - transform.right, 
+                    horizontalSpeed * Time.deltaTime);
             else
             {
+                sprite.flipX = isMoveForward;
                 isMoveForward = !isMoveForward;
-                sprite.flipX = false;
             }
         }
     }

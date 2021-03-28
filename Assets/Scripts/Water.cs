@@ -5,43 +5,32 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     public float hightWave = 0.1f;
-    float periodWave = 2.0f;
+    public float periodWave = 2.0f;
 
-    float timeWave = 1.0f;   
-
-    bool isWaveUp = false;
+    bool isWaveUp = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        timeWave = Time.time;
+        // Запуск колебания поверхности воды с периодом periodWave
+        InvokeRepeating("WaveMoving", 1.0f, periodWave);
     }
 
-    // Update is called once per frame
-    void Update()
+    void WaveMoving()
     {
-        if (Time.time - timeWave >= periodWave)
-        {
-            transform.position = Vector3.MoveTowards(
+        transform.position = Vector3.MoveTowards(
                 transform.position,
                 transform.position + (isWaveUp ? 1 : -1) * transform.up,
                 hightWave);
 
-            timeWave = Time.time;
-            isWaveUp = !isWaveUp;
-        }
+        isWaveUp = !isWaveUp;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("OnTriggerEnter2D");
-
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.SendMessage("Death");
-
-            //GameObject player = GameObject.FindGameObjectWithTag("Player");
-            //player.SendMessage("Death");
         }
     }
 }

@@ -96,6 +96,7 @@ public class LevelController : MonoBehaviour
             player.SendMessage("Walk");
         }
         else if (Input.GetButton("Vertical"))
+        //else if (Input.GetButtonDown("Vertical"))
         {
             player.SendMessage("WalkVertical");
         }
@@ -106,7 +107,7 @@ public class LevelController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F) && panelTalk.activeSelf)
         {
-            Debug.Log("GetKeyDown F");
+            //Debug.Log("GetKeyDown F");
 
             controllerState = ControllerState.DialogController;
             ShowDialogWindow();

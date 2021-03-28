@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class Slot : MonoBehaviour
 {
 	public Item item;
-	public int amount;
 
 	private GameObject panelItemDescription;
 	private GameObject inventorySlots;
+	private GameObject dragSprite;
 
 	void Start()
     {
@@ -28,7 +28,6 @@ public class Slot : MonoBehaviour
 	{
 		this.item = item;
 		GetComponent<Image>().sprite = item.inventoryImage;
-		GetComponentInChildren<Text>().enabled = false;
 	}
 
 	// Обновление слота как пустого
@@ -36,7 +35,6 @@ public class Slot : MonoBehaviour
 	{
 		this.item = null;
 		GetComponent<Image>().sprite = null;
-		GetComponentInChildren<Text>().enabled = true;
 	}
 
 	public void OnPressed()
@@ -52,4 +50,47 @@ public class Slot : MonoBehaviour
 					+ "\nItem info : " + item.ItemDecription);
 		}
 	}
+
+    #region MouseEvents
+    public void OnPointerOver()
+    {
+		Debug.Log("OnMouseOver");
+
+		if (dragSprite != null)
+            dragSprite.GetComponent<Image>().enabled = false;
+    }
+
+    public void OnPointerExit()
+    {
+		Debug.Log("OnMouseExit");
+
+		if (dragSprite != null)
+            dragSprite.GetComponent<Image>().enabled = true;
+    }
+
+    public void OnPointerDown()
+    {
+		Debug.Log("OnMouseDown");
+
+        dragSprite = new GameObject(this.name);
+        dragSprite.AddComponent<Image>().sprite = GetComponent<Image>().sprite;
+        dragSprite.GetComponent<Image>().enabled = false;
+
+		dragSprite.transform.position = transform.position;
+		dragSprite.transform.localScale = transform.localScale;
+	}
+
+    public void OnPointerUp()
+    {
+		Debug.Log("OnMouseUp");
+		//Destroy(dragSprite);
+	}
+
+    public void OnPointerDrag()
+    {
+		Debug.Log("OnMouseDrag");
+		Vector2 vc = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        dragSprite.transform.position = vc;
+    }
+	#endregion MouseEvents
 }

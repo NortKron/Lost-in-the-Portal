@@ -38,7 +38,7 @@ public class Boss : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("Boss - Trigger Exit");
+            //Debug.Log("Boss - Trigger Exit");
             GameObject.FindGameObjectWithTag("GameController").SendMessage("ShowPanelTalk");
         }
     }        

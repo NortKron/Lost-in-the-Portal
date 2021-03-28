@@ -7,9 +7,14 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public class Player : MonoBehaviour
 {
+    public int kUp = 1;
+    public int kDown = 1;
+
     public float Lives = 10.0f;
     public float WalkSpeed = 1.0f;
     public float JumpForce = 2.0f;
+
+    public float dirHoriz = 1.8f;
 
     public GameObject MainCamera;
 
@@ -22,13 +27,11 @@ public class Player : MonoBehaviour
     private GameObject labelLeftUp;
     private GameObject labelRightDown;
 
-    //private bool isPause = false;
-    //private bool isOpenInventory = false;
     public bool isDied = false;
-    public bool isCanMoveUp = false;
-    public bool isCanMoveDown = false;
+    private bool isCanMoveUp = false;
+    private bool isCanMoveDown = false;
 
-    bool playMoving = false;
+    bool movingVertical = false;
 
     new Rigidbody2D rigidbody;
     Animator animator;
@@ -62,7 +65,7 @@ public class Player : MonoBehaviour
         panelPlayerGUI = GameObject.Find("Player_GUI");
 
         labelLeftUp = GameObject.Find("Label_LeftUp");
-        labelRightDown = GameObject.Find("Label_RightDown");
+        labelRightDown = GameObject.Find("Label_RightDown");        
     }
 
     // Update is called once per frame
@@ -88,6 +91,7 @@ public class Player : MonoBehaviour
     {
         //Debug.Log("Walk");
 
+        //Debug.Log("H : " + Input.GetAxis("Horizontal"));
         Vector3 direction = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
 
@@ -102,39 +106,78 @@ public class Player : MonoBehaviour
 
     void WalkVertical()
     {
-        //GetComponent<Rigidbody2D>().isKinematic = true;
-        playMoving = true;
+        Vector3 directionUp = transform.up * Input.GetAxis("Vertical");
 
-        Vector3 direction = transform.up * Input.GetAxis("Vertical");
-        //transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
-        //sprite.flipX = direction.x < 0.0f;
+        //Debug.Log("movingVertical : " + movingVertical);
 
-        if (moveState == MoveState.Idle)
+        if (movingVertical)
         {
-            if (direction.y > 0)
+            //return;
+        }
+        else
+        {
+            //Debug.Log("Y : " + directionUp.y + "\nisCanMoveUp : " + isCanMoveUp + "; isCanMoveDown : " + isCanMoveDown);
+
+            if (directionUp.y >= 0 && !isCanMoveUp)
             {
+                //Debug.Log("LookUp");
+
                 animator.Play("LookUp");
-
-                /*
-                if (isCanMoveUp)
-                {
-                    playMoving = true;
-                    
-                    GetComponent<Rigidbody2D>().isKinematic = true;
-                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
-                }
-                    */
+                return;
             }
-            else
+
+            if (directionUp.y < 0 && !isCanMoveDown)
             {
-                animator.Play("LookDown");
+                //Debug.Log("LookDown");
 
-                /*
-                if (isCanMoveDown) 
-                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, WalkSpeed * Time.deltaTime);
-                */
+                animator.Play("LookDown");
+                return;
             }
-        }        
+            //return;
+        }
+
+        GetComponent<Rigidbody2D>().isKinematic = true;
+
+        //GetComponent<Rigidbody2D>().isKinematic = true;
+        movingVertical = true;
+
+        Vector3 direction = transform.right * dirHoriz;
+
+        if (directionUp.y > 0)
+        {
+            transform.position = Vector3.MoveTowards(
+            transform.position,
+            transform.position
+                + kDown * direction
+                + directionUp,
+            WalkSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(
+            transform.position,
+            transform.position
+                + kDown * direction
+                + kUp * directionUp,
+            WalkSpeed * Time.deltaTime);
+        }
+        /*
+        transform.position = Vector3.MoveTowards(
+            transform.position, 
+            transform.position 
+                + kDown * direction 
+                + kUp * directionUp, 
+            WalkSpeed * Time.deltaTime);
+        */
+
+        sprite.flipX = direction.x < 0.0f;
+
+        if (moveState != MoveState.Jump)
+        {
+            moveState = MoveState.Walk;
+            animator.Play("Walk");
+        }
+        
     }
 
     void Jump()
@@ -185,8 +228,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChangeCanMoveUp() => isCanMoveUp = !isCanMoveUp;
-    public void ChangeCanMoveDown() => isCanMoveDown = !isCanMoveDown;
+    public void ChangeCanMoveUp()
+    {
+        isCanMoveUp = !isCanMoveUp;
+    }
+
+    public void ChangeCanMoveDown()
+    {
+        isCanMoveDown = !isCanMoveDown;
+    }
     
     public void Death()
     {
